@@ -4,7 +4,7 @@ var b2 = document.getElementById("stop");
 var b3 = document.getElementById("clear");
 var id;
 
-var drawC = function(){
+/*var drawC = function(){
 	clear();
 	var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	var x = Math.floor((Math.random() * 460) + 21);
@@ -50,3 +50,15 @@ var stop = function(){
 b1.addEventListener("click",drawC);
 b2.addEventListener("click",stop);
 b3.addEventListener("click",clear);
+*/
+var Ball{
+    var xcor, ycor, dx, dy;
+    var inc = function(){
+	xcor += dx;
+	ycor += dy;
+	if(x+20>=500||x<=20)
+	    dx *= -1;
+	if(y+20>=500||y<=20)
+	    dy *= -1;
+    }
+}
