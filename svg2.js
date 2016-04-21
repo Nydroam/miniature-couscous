@@ -4,19 +4,6 @@ var b2 = document.getElementById("remove");
 var ballList = [];
 var colors = ["honeydew", "skyblue", "plum", "tan", "cornsilk", "brown", "dodgerblue"];
 
-/*
-  var clear = function(){
-  var c = document.getElementsByTagName("circle");
-  if(c[0])
-  c[0].remove();
-  }
-
-  var stop = function(){
-  if(id)
-  clearInterval(id);
-  }
-*/
-
 var Ball = function(){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     var r = Math.floor((Math.random() * 35)  + 15);
@@ -32,7 +19,6 @@ var Ball = function(){
 
     pic.appendChild(c);
     var inc = function(){
- //   	console.log("inc-ing");
 	x += dx;
 	y += dy;
 	if(x+r >= 500|| x <= r)
@@ -43,7 +29,7 @@ var Ball = function(){
 	c.setAttribute( "cy", y );
     }
     var dist = function(a,b,c,d) {
-	return Math.sqrt((a-b)*(a-b) + (c-d)*(c-d))
+	return Math.sqrt((a-b)*(a-b) + (c-d)*(c-d));
     }
     var flip = function() {
 	dx*=-1;
@@ -53,12 +39,13 @@ var Ball = function(){
 	var i;
 	for(i = 0; i < ballList.length; i++){
 	    var other = ballList[i];
-	    if (other.x == x && other.y == y && other.r == r){
-	    }
-	    else {
+	    if(c!=other.c) {
 		if (dist(x, other.x, y, other.y) < r + other.r) {
-		    flip();
-		    inc();
+		    console.log(dist(x, other.x, y, other.y));
+		    console.log(r + other.r);
+		    //flip();
+		    //other.flip();
+		    //inc();
 		}
 	    }
 	}
@@ -69,12 +56,12 @@ var Ball = function(){
 	collide: collide,
 	x: x,
 	y: y,
-	r: r
+	r: r,
+	c: c
     }
 }
 
 var addBall = function(){
-    //console.log("addball");
     var b = Ball();
     ballList.push(b);
     setInterval(b.inc,16);
@@ -91,7 +78,7 @@ var removeBall = function(){
 
 var i;
 for(i = 0; i < 10; i++){
-    addBall();
+    //addBall();
 }
 
 b1.addEventListener("click", addBall);
