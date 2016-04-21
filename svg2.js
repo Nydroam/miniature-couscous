@@ -1,70 +1,42 @@
 var pic = document.getElementById("vimg");
 var b1 = document.getElementById("add");
 
-/*var drawC = function(){
-	clear();
-	var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-	var x = Math.floor((Math.random() * 460) + 21);
-	var y = Math.floor((Math.random() * 460) + 21);
-	c.setAttribute( "cx", x );
-	c.setAttribute( "cy", y );
-	c.setAttribute( "r", 20 );
-	c.setAttribute( "fill", "red" );
-	c.setAttribute( "stroke", "black" );
-	
-	pic.appendChild( c );
-	
-	var dx = 1;
-	var dy = 1;
+var colors = ["honeydew", "skyblue", "plum", "tan", "cornsilk", "brown", "dodgerblue"];
 
-	var anim = function(){
-		if(x+20>=500||x<=20)
-			dx *= -1;
-		if(y+20>=500||y<=20)
-			dy *= -1;
+/*
+  var clear = function(){
+  var c = document.getElementsByTagName("circle");
+  if(c[0])
+  c[0].remove();
+  }
 
-		x+=dx;
-		y+=dy;
-
-		c.setAttribute( "cx", x );
-		c.setAttribute( "cy", y );
-	}
-	
-	id = setInterval(anim, 16);	
-};
-
-var clear = function(){
-	var c = document.getElementsByTagName("circle");
-	if(c[0])
-		c[0].remove();
-}
-
-var stop = function(){
-	if(id)
-		clearInterval(id);
-}
+  var stop = function(){
+  if(id)
+  clearInterval(id);
+  }
 */
 
 var Ball = function(){
-	var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-	var x = Math.floor((Math.random() * 460) + 21);
-	var y = Math.floor((Math.random() * 460) + 21);
-	var dx = 1;
-	var dy = 1;
-	c.setAttribute( "cx", x );
-	c.setAttribute( "cy", y );
-	c.setAttribute( "r", 20 );
-	c.setAttribute( "fill", "red" );
-	c.setAttribute( "stroke", "black" );
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    var r = Math.floor((Math.random() * 35)  + 15);
+    var x = Math.floor((Math.random() * 460) + r + 1);
+    var y = Math.floor((Math.random() * 460) + r + 1);
+    var dx = 1;
+    var dy = 1;
+    c.setAttribute( "cx", x );
+    c.setAttribute( "cy", y );
+    c.setAttribute( "r", r );
+    c.setAttribute( "fill", colors[Math.floor(Math.random() * colors.length)] );
+    c.setAttribute( "stroke", "black" );
 
-	pic.appendChild(c);
+    pic.appendChild(c);
     var inc = function(){
     	console.log("inc-ing");
 	x += dx;
 	y += dy;
-	if(x+20>=500||x<=20)
+	if(x+r >= 500|| x <= r)
 	    dx *= -1;
-	if(y+20>=500||y<=20)
+	if(y+r >= 500|| y <= r)
 	    dy *= -1;
 	c.setAttribute( "cx", x );
 	c.setAttribute( "cy", y );
@@ -75,9 +47,9 @@ var Ball = function(){
 }
 
 var addBall = function(){
-	//console.log("addball");
-	var b = Ball();
-	setInterval(b.inc,16);
+    //console.log("addball");
+    var b = Ball();
+    setInterval(b.inc,16);
 }
 
 var removeBall = function(){
