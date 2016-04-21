@@ -1,14 +1,11 @@
 var pic = document.getElementById("vimg");
-var b1 = document.getElementById("animate");
-var b2 = document.getElementById("stop");
-var b3 = document.getElementById("clear");
-var id;
+var b1 = document.getElementById("add");
 
 /*var drawC = function(){
 	clear();
 	var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	var x = Math.floor((Math.random() * 460) + 21);
-	var y = Math.floor((Math.random() * 460) + 21)
+	var y = Math.floor((Math.random() * 460) + 21);
 	c.setAttribute( "cx", x );
 	c.setAttribute( "cy", y );
 	c.setAttribute( "r", 20 );
@@ -46,19 +43,44 @@ var stop = function(){
 	if(id)
 		clearInterval(id);
 }
-
-b1.addEventListener("click",drawC);
-b2.addEventListener("click",stop);
-b3.addEventListener("click",clear);
 */
-var Ball{
-    var xcor, ycor, dx, dy;
+
+var Ball = function(){
+	var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	var x = Math.floor((Math.random() * 460) + 21);
+	var y = Math.floor((Math.random() * 460) + 21);
+	var dx = 1;
+	var dy = 1;
+	c.setAttribute( "cx", x );
+	c.setAttribute( "cy", y );
+	c.setAttribute( "r", 20 );
+	c.setAttribute( "fill", "red" );
+	c.setAttribute( "stroke", "black" );
+
+	pic.appendChild(c);
     var inc = function(){
-	xcor += dx;
-	ycor += dy;
+    	console.log("inc-ing");
+	x += dx;
+	y += dy;
 	if(x+20>=500||x<=20)
 	    dx *= -1;
 	if(y+20>=500||y<=20)
 	    dy *= -1;
+	c.setAttribute( "cx", x );
+	c.setAttribute( "cy", y );
+    }
+    return {
+    	inc: inc
     }
 }
+
+var addBall = function(){
+	//console.log("addball");
+	var b = Ball();
+	setInterval(b.inc,16);
+}
+
+var removeBall = function(){
+
+}
+b1.addEventListener("click",addBall);
