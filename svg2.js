@@ -19,10 +19,10 @@ var colors = ["honeydew", "skyblue", "plum", "tan", "cornsilk", "brown", "dodger
 var Ball = function(){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     var r = Math.floor((Math.random() * 35)  + 15);
-    var x = Math.floor((Math.random() * 460) + r + 1);
-    var y = Math.floor((Math.random() * 460) + r + 1);
-    var dx = 1;
-    var dy = 1;
+    var x = Math.floor((Math.random() * (500-2*r)) + r + 1);
+    var y = Math.floor((Math.random() * (500-2*r)) + r + 1);
+    var dx = Math.random()*3;
+    var dy = Math.random()*3;
     c.setAttribute( "cx", x );
     c.setAttribute( "cy", y );
     c.setAttribute( "r", r );
@@ -54,5 +54,10 @@ var addBall = function(){
 
 var removeBall = function(){
 
+}
+
+var i;
+for(i = 0; i < 10; i++){
+    addBall();
 }
 b1.addEventListener("click",addBall);
