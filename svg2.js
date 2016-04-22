@@ -2,6 +2,9 @@ var pic = document.getElementById("vimg");
 var b1 = document.getElementById("add");
 var b2 = document.getElementById("remove");
 var b3 = document.getElementById("add3");
+var b4 = document.getElementById("collision");
+var b5 = document.getElementById("flock");
+var b6 = document.getElementById("filter");
 var ballList = [];
 var colors = ["honeydew", "skyblue", "plum", "tan", "cornsilk", "brown", "dodgerblue"];
 
@@ -29,7 +32,7 @@ var Ball = function(){
 	var y = Math.floor((Math.random() * (svgy - 2*r)) + r + 3);
 	for (var i = 0; i < ballList.length; i++) {
 	    if (colliding(ballList[i])) {
-		console.log("whoa");
+		//console.log("whoa");
 		check = true;
 	    }
 	}
@@ -111,8 +114,10 @@ var Ball = function(){
 var n;
 var m;
 var addBall = function(){
+    if(ballList.length<45){
     var b = Ball();
     ballList.push(b);
+}
     //setInterval(b.inc,16);
     //var g = setInterval(b.update,16);
     //b.setInt(g);
@@ -139,9 +144,20 @@ var col = function(){
     }
 }
 
-setInterval(move, 8);
-setInterval(col, 5);
-
+setInterval(move, 16);
+var colID = setInterval(col, 1);
+var colOn = true;
+var toggleCol = function(){
+    if (colOn){
+	colOn = false;
+	clearInterval(colID);
+    }
+    else{
+	colID = setInterval(col,1);
+	colOn = true;
+    }
+    console.log(colOn);
+}
 var removeBall = function(){
     var c = document.getElementsByTagName("circle");
     if(c[0]){
@@ -150,6 +166,13 @@ var removeBall = function(){
 	c[0].remove();
     }
     //console.log(ballList);
+}
+var flock = function(){
+    ballList.map(function(x) { x.setVel(1, 1); });
+}
+
+var filter = function() {
+    ballList.filter(function(x) {return x.r > 35} ).map(function(x) {x.setVel(0, 0)});
 }
 
 var i;
@@ -160,3 +183,6 @@ for(i = 0; i < 10; i++){
 b1.addEventListener("click", addBall);
 b2.addEventListener("click", removeBall);
 b3.addEventListener("click", add3Balls);
+b4.addEventListener("click", toggleCol);
+b5.addEventListener("click", flock);
+b6.addEventListener("click", filter);
