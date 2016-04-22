@@ -55,19 +55,19 @@ var Ball = function(){
             return dist(x, other.x(), y, other.y()) < r + other.r;
     }
     var resolveCollision = function( other ){
-        console.log("colliding");
-        console.log((other.dx()*(other.r-r)+2*r*dx)/(r+other.r) + ", " +
-         (other.dy()*(other.r-r)+2*r*dy)/(r+other.r));
-        console.log((dx*(r-other.r)+2*other.r*other.dx())/(r+other.r)
-         + ", " + (dy*(r-other.r)+2*other.r*other.dy())/(r+other.r));
+        //console.log("colliding");
+        //console.log((other.dx()*(other.r-r)+2*r*dx)/(r+other.r) + ", " +
+         //(other.dy()*(other.r-r)+2*r*dy)/(r+other.r));
+        //console.log((dx*(r-other.r)+2*other.r*other.dx())/(r+other.r)
+         //+ ", " + (dy*(r-other.r)+2*other.r*other.dy())/(r+other.r));
         var tmpx = dx;
         var tmpy = dy;
         setVel((dx*(r-other.r)+2*other.r*other.dx())/(r+other.r),
                (dy*(r-other.r)+2*other.r*other.dy())/(r+other.r));
         other.setVel((other.dx()*(other.r-r)+2*r*tmpx)/(r+other.r),
                (other.dy()*(other.r-r)+2*r*tmpy)/(r+other.r));
-        console.log(dx + ", " + dy);
-        console.log(other.dx() + ", " + other.dy());
+        //console.log(dx + ", " + dy);
+        //console.log(other.dx() + ", " + other.dy());
         while(dist(x, other.x(), y, other.y()) < r + other.r - 15){
             inc();
             other.inc();
