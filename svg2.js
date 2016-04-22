@@ -12,8 +12,9 @@ var Ball = function(){
     var r = Math.floor((Math.random() * 35)  + 15);
     var x = Math.floor((Math.random() * (500-2*r)) + r + 3);
     var y = Math.floor((Math.random() * (500-2*r)) + r + 3);
-    var dx = Math.random()*2+1;
-    var dy = Math.random()*2+1;
+    var dx = Math.random()*2;
+    var dy = Math.random()*2;
+
     c.setAttribute( "cx", x );
     c.setAttribute( "cy", y );
     c.setAttribute( "r", r );
@@ -24,12 +25,21 @@ var Ball = function(){
     var inc = function(){
 	x += dx;
 	y += dy;
-	if(x+r >= 500|| x <= r)
+	if((x+r >= 500 && dx > 0) || (x <= r && dx < 0))
 	    dx *= -1;
-	if(y+r >= 500|| y <= r)
+	if((y+r >= 500 && dy > 0) || (y <= r && dy < 0))
 	    dy *= -1;
 	c.setAttribute( "cx", x );
 	c.setAttribute( "cy", y );
+
+
+    
+    }
+    var getdx = function(){
+        return dx;
+    }
+    var getdy = function(){
+        return dy;
     }
     var getx = function(){
         return x;
@@ -37,56 +47,89 @@ var Ball = function(){
     var gety = function(){
         return y;
     }
-    var flip = function() {
-	dx*=-1;
-	dy*=-1;
+    var setVel = function (Dx,Dy){
+        dx = Dx;
+        dy = Dy;
     }
-    var collide = function(){
-	var i;
-	for(i = 0; i < ballList.length; i++){
-	    var other = ballList[i];
-	    if(c!=other.c) {
-		if (dist(x, other.x(), y, other.y()) < r + other.r) {
-            console.log("colliding");
-		    //console.log(x + " " + other.x + " " + y + " " + other.y);
-		    //console.log(r + other.r);
-		    flip();
-		    other.flip();
+    var colliding = function( other ){
+            return dist(x, other.x(), y, other.y()) < r + other.r;
+    }
+    var resolveCollision = function( other ){
+        console.log("colliding");
+        console.log((other.dx()*(other.r-r)+2*r*dx)/(r+other.r) + ", " +
+         (other.dy()*(other.r-r)+2*r*dy)/(r+other.r));
+        console.log((dx*(r-other.r)+2*other.r*other.dx())/(r+other.r)
+         + ", " + (dy*(r-other.r)+2*other.r*other.dy())/(r+other.r));
+        var tmpx = dx;
+        var tmpy = dy;
+        setVel((dx*(r-other.r)+2*other.r*other.dx())/(r+other.r),
+               (dy*(r-other.r)+2*other.r*other.dy())/(r+other.r));
+        other.setVel((other.dx()*(other.r-r)+2*r*tmpx)/(r+other.r),
+               (other.dy()*(other.r-r)+2*r*tmpy)/(r+other.r));
+        console.log(dx + ", " + dy);
+        console.log(other.dx() + ", " + other.dy());
+        while(dist(x, other.x(), y, other.y()) < r + other.r - 15){
             inc();
-		}
-	    }
-	}
+            other.inc();
+        }
+        inc();
+        other.inc();
     }
     return {
-    	inc: inc,
-	flip: flip,
-	collide: collide,
-	x: getx,
-	y: gety,
-	r: r,
-	c: c
+        inc: inc,
+        colliding: colliding,
+        resolveCollision: resolveCollision,
+        setVel: setVel,
+        dx: getdx,
+        dy: getdy,
+	    x: getx,
+	    y: gety,
+	    r: r,
+        c: c
     }
 }
 
-
+var n;
+var m;
 var addBall = function(){
     var b = Ball();
     ballList.push(b);
-    setInterval(b.inc,16);
-    setInterval(b.collide,10);
+    //setInterval(b.inc,16);
+    //var g = setInterval(b.update,16);
+    //b.setInt(g);
+    //console.log(g);
 }
+
+
+var move = function(){
+for(n = 0; n < ballList.length; n++)
+    ballList[n].inc();
+}
+var col = function(){
+for(n = 0; n < ballList.length; n++){
+    for (m = n + 1; m < ballList.length; m++){
+        if(ballList[n].colliding(ballList[m]))
+            ballList[n].resolveCollision(ballList[m]);
+    }
+}
+}
+
+setInterval(move, 16);
+setInterval(col, 1);
 
 var removeBall = function(){
   var c = document.getElementsByTagName("circle");
   if(c[0]){
-      ballList.splice(0,1);
+    ballList.shift();
+      //clearInterval(ballList.shift().interval());
       c[0].remove();
   }
+  //console.log(ballList);
 }
 
 var i;
 for(i = 0; i < 10; i++){
-    //addBall();
+    addBall();
 }
 
 b1.addEventListener("click", addBall);
